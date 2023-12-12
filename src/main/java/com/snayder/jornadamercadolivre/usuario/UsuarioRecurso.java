@@ -1,5 +1,6 @@
 package com.snayder.jornadamercadolivre.usuario;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class UsuarioRecurso {
     private final UsuarioServico usuarioServico;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponse> cadastrar(@RequestBody UsuarioRequest usuarioRequest) {
+    public ResponseEntity<UsuarioResponse> cadastrar(@RequestBody @Valid UsuarioRequest usuarioRequest) {
         return new ResponseEntity<>(usuarioServico.cadastrar(usuarioRequest), HttpStatus.OK);
     }
 }
