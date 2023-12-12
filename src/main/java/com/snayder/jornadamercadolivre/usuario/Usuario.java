@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -24,7 +25,7 @@ public class Usuario {
 
     public Usuario(UsuarioRequest usuarioRequest) {
         email = usuarioRequest.email();
-        senha = usuarioRequest.senha();
+        senha = new BCryptPasswordEncoder().encode(usuarioRequest.senha());
     }
 
     @PrePersist
