@@ -19,11 +19,13 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nome;
     private String email;
     private String senha;
     private LocalDateTime dataCriacao;
 
     public Usuario(UsuarioRequest usuarioRequest) {
+        nome = usuarioRequest.nome();
         email = usuarioRequest.email();
         senha = new BCryptPasswordEncoder().encode(usuarioRequest.senha());
     }
