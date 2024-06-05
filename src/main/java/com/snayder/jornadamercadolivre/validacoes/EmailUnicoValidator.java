@@ -3,11 +3,11 @@ package com.snayder.jornadamercadolivre.validacoes;
 import com.snayder.jornadamercadolivre.usuario.UsuarioRepositorio;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EmailUnicoValidator implements ConstraintValidator<EmailUnico, String> {
-    private UsuarioRepositorio usuarioRepositorio;
+    private final UsuarioRepositorio usuarioRepositorio;
 
     @Override
     public boolean isValid(String email, ConstraintValidatorContext context) {
