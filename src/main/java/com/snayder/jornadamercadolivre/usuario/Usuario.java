@@ -1,7 +1,6 @@
 package com.snayder.jornadamercadolivre.usuario;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +12,6 @@ import java.time.LocalDateTime;
 @Table(name = "tab_usuarios")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 public class Usuario {
     @Id
@@ -24,10 +22,10 @@ public class Usuario {
     private String senha;
     private LocalDateTime dataCriacao;
 
-    public Usuario(UsuarioRequest usuarioRequest) {
-        nome = usuarioRequest.nome();
-        email = usuarioRequest.email();
-        senha = new BCryptPasswordEncoder().encode(usuarioRequest.senha());
+    public Usuario(String nome, String email, String senha) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = new BCryptPasswordEncoder().encode(senha);
     }
 
     @PrePersist

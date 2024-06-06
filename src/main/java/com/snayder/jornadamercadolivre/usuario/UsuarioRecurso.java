@@ -1,9 +1,10 @@
 package com.snayder.jornadamercadolivre.usuario;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("usuarios")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UsuarioRecurso {
-    private final UsuarioServico usuarioServico;
+    private final UsuarioRepositorio usuarioRepositorio;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponse> cadastrar(@RequestBody @Valid UsuarioRequest usuarioRequest) {
-        return new ResponseEntity<>(usuarioServico.cadastrar(usuarioRequest), HttpStatus.OK);
+    @Transactional
+    public ResponseEntity<UsuarioResponse> salva(@RequestBody @Valid UsuarioRequest usuarioRequest) {
+        Usuario usuario = usuarioRepositorio.save(usuarioRequest.toModel());
+        return new ResponseEntity<>(new UsuarioResponse(usuario), HttpStatus.OK);
     }
 }

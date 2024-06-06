@@ -18,4 +18,8 @@ public record UsuarioRequest(
         @NotBlank(message = "A senha é obrigatória")
         @Size(min = 6, message = "A senha deve conter no mínino {min} caractéres")
         String senha
-) {}
+) {
+        public Usuario toModel() {
+                return new Usuario(nome, email, senha);
+        }
+}
