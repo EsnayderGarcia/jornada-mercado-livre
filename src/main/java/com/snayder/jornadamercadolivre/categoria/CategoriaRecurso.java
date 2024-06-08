@@ -1,5 +1,6 @@
 package com.snayder.jornadamercadolivre.categoria;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,7 @@ public class CategoriaRecurso {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<CategoriaResponse> salva(@RequestBody CategoriaRequest categoriaRequest) {
+    public ResponseEntity<CategoriaResponse> salva(@RequestBody @Valid CategoriaRequest categoriaRequest) {
         Categoria categoria = categoriaRepositorio.save(categoriaRequest.toModel(categoriaRepositorio));
         return ResponseEntity.ok(new CategoriaResponse(categoria));
     }
