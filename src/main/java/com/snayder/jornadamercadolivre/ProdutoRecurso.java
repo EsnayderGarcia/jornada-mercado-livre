@@ -3,14 +3,14 @@ package com.snayder.jornadamercadolivre;
 import com.snayder.jornadamercadolivre.produto.Produto;
 import com.snayder.jornadamercadolivre.produto.ProdutoRepositorio;
 import com.snayder.jornadamercadolivre.produto.ProdutoRequest;
+import com.snayder.jornadamercadolivre.produto.ProdutoResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("produtos")
@@ -20,8 +20,15 @@ public class ProdutoRecurso {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<Object> salva(@RequestBody @Valid ProdutoRequest produtoRequest) {
+    public ResponseEntity<ProdutoResponse> salva(@RequestBody @Valid ProdutoRequest produtoRequest) {
         Produto produto = produtoRepositorio.save(produtoRequest.toModel());
-        return ResponseEntity.ok("produto");
+        return ResponseEntity.ok(new ProdutoResponse(produto));
+    }
+
+    @GetMapping
+    @Transactional(readOnly = true)
+    public ResponseEntity<List<ProdutoResponse>> busca() {
+        List<ProdutoResponse> produtos = produtoRepositorio.findAll().stream().map(ProdutoResponse::new).toList();
+        return ResponseEntity.ok(produtos);
     }
 }
