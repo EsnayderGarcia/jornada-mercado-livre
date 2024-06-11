@@ -1,9 +1,5 @@
-package com.snayder.jornadamercadolivre;
+package com.snayder.jornadamercadolivre.produto;
 
-import com.snayder.jornadamercadolivre.produto.Produto;
-import com.snayder.jornadamercadolivre.produto.ProdutoRepositorio;
-import com.snayder.jornadamercadolivre.produto.ProdutoRequest;
-import com.snayder.jornadamercadolivre.produto.ProdutoResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
