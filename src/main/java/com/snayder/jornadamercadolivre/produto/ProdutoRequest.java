@@ -4,6 +4,7 @@ import com.snayder.jornadamercadolivre.caracteristica.CaracteristicaRequest;
 import com.snayder.jornadamercadolivre.categoria.Categoria;
 import com.snayder.jornadamercadolivre.validacoes.ExistId;
 import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -24,7 +25,7 @@ public record ProdutoRequest(
         @NotEmpty(message = "Caracteristicas são obrigatórias")
         Set<CaracteristicaRequest> caracteristicas,
 
-        @Size(max = 1000)
+        @Length(max = 1000)
         @NotBlank(message = "Descrição é obrigatória")
         String descricao,
 

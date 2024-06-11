@@ -11,6 +11,7 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -24,19 +25,26 @@ public class Produto {
     private String nome;
     private BigDecimal valor;
     private Integer quantidade;
-    @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
-    private Set<Caracteristica> caracteristicas = new HashSet<>();
     private String descricao;
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
+    private Set<Caracteristica> caracteristicas = new HashSet<>();
 
-    public Produto(String nome, BigDecimal valor, Integer quantidade, String descricao, Categoria categoria, Set<CaracteristicaRequest> caracteristicas) {
+    public Produto(
+            String nome,
+            BigDecimal valor,
+            Integer quantidade,
+            String descricao,
+            Categoria categoria,
+            Set<CaracteristicaRequest> caracteristicas
+    ) {
         this.nome = nome;
         this.valor = valor;
         this.quantidade = quantidade;
         this.descricao = descricao;
         this.categoria = categoria;
-        caracteristicas.forEach(c -> this.caracteristicas.add(new Caracteristica(c.nome(), this)));
+        this.caracteristicas.addAll(caracteristicas.stream().map(c -> c.toModel(this)).collect(Collectors.toSet()));
     }
 }
