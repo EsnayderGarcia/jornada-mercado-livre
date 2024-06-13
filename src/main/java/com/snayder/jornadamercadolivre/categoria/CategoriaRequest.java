@@ -1,5 +1,6 @@
 package com.snayder.jornadamercadolivre.categoria;
 
+import com.snayder.jornadamercadolivre.exception.RecursoNaoEncontradoException;
 import com.snayder.jornadamercadolivre.validacoes.ExistId;
 import com.snayder.jornadamercadolivre.validacoes.UniqueValue;
 import jakarta.validation.constraints.NotBlank;
@@ -18,7 +19,7 @@ public record CategoriaRequest(
 
         if (Objects.nonNull(categoriaMaeId)) {
             Categoria categoriaMae = categoriaRepositorio.findById(categoriaMaeId)
-                .orElseThrow(() -> new IllegalArgumentException("Categoria mãe informada não existe"));
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Categoria mãe informada não existe"));
 
             categoria.setCategoriaMae(categoriaMae);
         }
