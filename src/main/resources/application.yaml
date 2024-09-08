@@ -1,6 +1,8 @@
 spring:
+  profiles:
+    active: ${PROFILE:dev}
   jpa:
-    open-in-view: 'false'
+    open-in-view: false
     properties:
       hibernate:
         format_sql: 'true'

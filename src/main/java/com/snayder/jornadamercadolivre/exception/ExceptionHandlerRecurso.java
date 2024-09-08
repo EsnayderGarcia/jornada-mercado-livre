@@ -22,12 +22,14 @@ public class ExceptionHandlerRecurso {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<InformacaoArgumentoInvalido> argumentoInvalido(MethodArgumentNotValidException ex, HttpServletRequest req) {
+    public ResponseEntity<InformacaoArgumentoInvalido> argumentoInvalido(MethodArgumentNotValidException ex,
+                                                                         HttpServletRequest req) {
         InformacaoArgumentoInvalido informacaoArgumentoInvalido = new InformacaoArgumentoInvalido(
-                HttpStatus.UNPROCESSABLE_ENTITY.value(),
-                "Um ou mais campos estão inválidos",
-                req.getRequestURI()
+            HttpStatus.UNPROCESSABLE_ENTITY.value(),
+            "Um ou mais campos estão inválidos",
+            req.getRequestURI()
         );
+
         ex.getBindingResult().getFieldErrors().forEach(e ->
             informacaoArgumentoInvalido.getErros().add(new ArgumentoInvalidoDetalhe(e.getField(), e.getDefaultMessage()))
         );

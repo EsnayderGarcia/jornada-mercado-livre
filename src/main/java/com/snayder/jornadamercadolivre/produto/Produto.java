@@ -26,6 +26,7 @@ public class Produto {
     private BigDecimal valor;
     private Integer quantidade;
     private String descricao;
+    private String urlImagem;
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;

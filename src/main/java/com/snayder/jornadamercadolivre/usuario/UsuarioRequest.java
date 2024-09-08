@@ -19,7 +19,7 @@ public record UsuarioRequest(
         @Size(min = 6, message = "A senha deve conter no mínino {min} caractéres")
         String senha
 ) {
-        public Usuario toModel() {
+        public Usuario toEntidade() {
                 return new Usuario(nome, email, senha);
         }
 }
