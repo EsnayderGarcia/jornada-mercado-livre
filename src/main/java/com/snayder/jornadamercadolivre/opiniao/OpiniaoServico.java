@@ -28,4 +28,10 @@ public class OpiniaoServico {
 
         return opiniaoRepositorio.save(opiniaoRequest.toEntidade(usuario, produto));
     }
+
+    @Transactional(readOnly = true)
+    public Double obterMediaNotasProduto(Long idProduto) {
+        Produto produto = produtoServico.consultarPorId(idProduto);
+        return opiniaoRepositorio.obterMediaNotasProduto(produto).orElse(0.0);
+    }
 }

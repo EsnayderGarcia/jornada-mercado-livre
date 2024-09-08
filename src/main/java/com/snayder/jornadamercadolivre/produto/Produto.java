@@ -4,6 +4,7 @@ import com.snayder.jornadamercadolivre.caracteristica.Caracteristica;
 import com.snayder.jornadamercadolivre.caracteristica.CaracteristicaRequest;
 import com.snayder.jornadamercadolivre.categoria.Categoria;
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,9 +19,11 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "tab_produtos")
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
     private String nome;
     private BigDecimal valor;
@@ -28,18 +31,17 @@ public class Produto {
     private String descricao;
     private String urlImagem;
     @ManyToOne
-    @JoinColumn(name = "categoria_id")
     private Categoria categoria;
     @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
     private Set<Caracteristica> caracteristicas = new HashSet<>();
 
     public Produto(
-            String nome,
-            BigDecimal valor,
-            Integer quantidade,
-            String descricao,
-            Categoria categoria,
-            Set<CaracteristicaRequest> caracteristicas
+        String nome,
+        BigDecimal valor,
+        Integer quantidade,
+        String descricao,
+        Categoria categoria,
+        Set<CaracteristicaRequest> caracteristicas
     ) {
         this.nome = nome;
         this.valor = valor;
