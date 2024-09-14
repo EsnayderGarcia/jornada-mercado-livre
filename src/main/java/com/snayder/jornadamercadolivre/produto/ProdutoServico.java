@@ -5,7 +5,6 @@ import com.snayder.jornadamercadolivre.imagem.ImagemServico;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,19 +19,13 @@ public class ProdutoServico {
         return produtoRepositorio.save(produtoRequest.toModel());
     }
 
+    @Transactional(readOnly = true)
     public List<Produto> consultar() {
         return produtoRepositorio.findAll();
     }
 
     public Produto consultarPorId(Long id) {
         return produtoRepositorio.findById(id)
-                .orElseThrow(() -> new RecursoNaoEncontradoException("Produto não identificado"));
-    }
-
-    @Transactional
-    public void salvarImagem(Long id, MultipartFile imagem) {
-        Produto produto = consultarPorId(id);
-        produto.setUrlImagem(imagem.getOriginalFilename());
-        produtoRepositorio.save(produto);
+            .orElseThrow(() -> new RecursoNaoEncontradoException("Produto não identificado"));
     }
 }

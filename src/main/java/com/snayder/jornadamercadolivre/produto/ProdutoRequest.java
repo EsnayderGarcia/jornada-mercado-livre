@@ -34,10 +34,7 @@ public record ProdutoRequest(
     Long categoriaId
 ) {
     public Produto toModel() {
-        Categoria categoria = Categoria.builder()
-            .id(categoriaId)
-            .build();
-
+        Categoria categoria = Categoria.builder().id(categoriaId).build();
         return new Produto(nome, valor, quantidade, descricao, categoria, caracteristicas);
     }
 }

@@ -7,24 +7,24 @@ import java.math.BigDecimal;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public record ProdutoResponse(
-    Long id,
-    String nome,
-    BigDecimal valor,
-    Integer quantidade,
-    Set<CaracteristicaResponse> caracteristicas,
-    String descricao,
-    CategoriaResponse categoria
+public record ProdutoSalvoResponse(
+   Long id,
+   String nome,
+   BigDecimal valor,
+   Integer quantidade,
+   String descricao,
+   CategoriaResponse categoria,
+   Set<CaracteristicaResponse> caracteristicas
 ) {
-    public ProdutoResponse(Produto produto) {
+    public ProdutoSalvoResponse(Produto produto) {
         this(
             produto.getId(),
             produto.getNome(),
             produto.getValor(),
             produto.getQuantidade(),
-            produto.getCaracteristicas().stream().map(CaracteristicaResponse::new).collect(Collectors.toSet()),
             produto.getDescricao(),
-            new CategoriaResponse(produto.getCategoria())
+            new CategoriaResponse(produto.getCategoria()),
+            produto.getCaracteristicas().stream().map(CaracteristicaResponse::new).collect(Collectors.toSet())
         );
     }
 }
