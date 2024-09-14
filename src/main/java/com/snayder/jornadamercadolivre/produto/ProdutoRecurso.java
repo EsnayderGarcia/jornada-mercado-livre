@@ -1,9 +1,11 @@
 package com.snayder.jornadamercadolivre.produto;
 
-import com.snayder.jornadamercadolivre.imagem.ImagemServico;
+import com.snayder.jornadamercadolivre.imagem.ImagemRequest;
+import com.snayder.jornadamercadolivre.imagem.ImagemResponse;
 import com.snayder.jornadamercadolivre.opiniao.OpiniaoServico;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProdutoRecurso {
     private final ProdutoServico produtoServico;
-    private final ImagemServico imagemServico;
     private final OpiniaoServico opiniaoServico;
 
     @PostMapping
@@ -38,5 +39,15 @@ public class ProdutoRecurso {
             produtoServico.consultarPorId(idProduto),
             opiniaoServico.obterMediaNotasProduto(idProduto)
         ));
+    }
+
+    @PutMapping(value = "{idProduto}/imagens", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ImagemResponse> salvaImagens(@PathVariable Long idProduto, @Valid ImagemRequest imagem) {
+        return ResponseEntity.ok(produtoServico.salvaImagem(idProduto, imagem));
+    }
+
+    @PutMapping(value = "{idProduto}/imagens/{idImagem}")
+    public ResponseEntity<ImagemResponse> ataulizaImagenPrincipal(@PathVariable Long idProduto, @PathVariable Long idImagem) {
+        return ResponseEntity.ok(produtoServico.atualizaImagemPrincipal(idProduto, idImagem));
     }
 }

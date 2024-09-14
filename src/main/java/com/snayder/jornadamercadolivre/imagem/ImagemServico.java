@@ -1,7 +1,7 @@
 package com.snayder.jornadamercadolivre.imagem;
 
-import org.springframework.web.multipart.MultipartFile;
+import com.snayder.jornadamercadolivre.produto.Produto;
 
 public interface ImagemServico {
-    String processaImagem(MultipartFile imagem);
+    Imagem processaImagem(ImagemRequest imagem, Produto produto);
 }
