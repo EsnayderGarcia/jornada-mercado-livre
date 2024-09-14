@@ -10,11 +10,11 @@ import java.util.UUID;
 @Profile("dev")
 public class ImagemFakeServico implements ImagemServico {
     @Override
-    public Imagem processaImagem(ImagemRequest imagem, Produto produto) {
+    public Imagem processaImagem(ImagemRequest imagemRequest, Produto produto) {
         return new Imagem(
-            String.format("https://imagem-repo-fake/%s-%s.com", UUID.randomUUID().toString(), imagem.file().getOriginalFilename()),
-            imagem.file().getSize(),
-            imagem.isPrincipal(),
+            String.format("https://imagem-repo-fake/%s-%s.com", UUID.randomUUID().toString(), imagemRequest.file().getOriginalFilename()),
+            imagemRequest.file().getSize(),
+            !imagemRequest.isPrincipal() && !produto.temImagemPrincipal() ? true : imagemRequest.isPrincipal(),
             produto
         );
     }

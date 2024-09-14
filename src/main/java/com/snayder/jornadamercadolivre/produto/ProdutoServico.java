@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +24,6 @@ public class ProdutoServico {
         return produtoRepositorio.save(produtoRequest.toModel());
     }
 
-    @Transactional(readOnly = true)
     public List<Produto> consultar() {
         return produtoRepositorio.findAll();
     }
@@ -35,13 +36,12 @@ public class ProdutoServico {
     @Transactional
     public ImagemResponse salvaImagem(Long idProduto, ImagemRequest imagemRequest) {
         Produto produto = consultarPorId(idProduto);
-        List<Imagem> imagensSalvas = produto.getImagens();
 
-        if (imagemRequest.isPrincipal() && !imagensSalvas.isEmpty())
+        if (imagemRequest.isPrincipal() && produto.temImagemPrincipal())
             produto.alteraValorImagemPrincipalAtual();
 
         Imagem imagem = imagemServico.processaImagem(imagemRequest, produto);
-        imagensSalvas.add(imagem);
+        produto.getImagens().add(imagem);
         produtoRepositorio.save(produto);
 
         return new ImagemResponse(imagem);
@@ -50,8 +50,12 @@ public class ProdutoServico {
     @Transactional
     public ImagemResponse atualizaImagemPrincipal(Long idProduto, Long idImagem) {
         Produto produto = consultarPorId(idProduto);
-        produto.alteraValorImagemPrincipalAtual();
+        Optional<Imagem> possivelImagemPrincipal = produto.getImagemPrincipal();
 
+        if (possivelImagemPrincipal.isPresent() && Objects.equals(possivelImagemPrincipal.get().getId(), idImagem))
+            throw new IllegalArgumentException("Irmão, você tá querendo atualizar uma imagem que já é a principal, fica ligado");
+
+        produto.alteraValorImagemPrincipalAtual();
         return new ImagemResponse(produto.atualizaImagemPrincipal(idImagem));
     }
 }

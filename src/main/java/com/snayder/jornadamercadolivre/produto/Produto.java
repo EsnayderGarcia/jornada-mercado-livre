@@ -51,11 +51,14 @@ public class Produto {
         this.caracteristicas.addAll(caracteristicas.stream().map(c -> c.toModel(this)).collect(Collectors.toSet()));
     }
 
-    public void alteraValorImagemPrincipalAtual() {
-        imagens.stream()
+    public Optional<Imagem> getImagemPrincipal() {
+        return imagens.stream()
             .filter(Imagem::getIsPrincipal)
-            .findFirst()
-            .ifPresent(imagem -> imagem.setIsPrincipal(false));
+            .findFirst();
+    }
+
+    public void alteraValorImagemPrincipalAtual() {
+        getImagemPrincipal().ifPresent(imagem -> imagem.setIsPrincipal(false));
     }
 
     public Imagem atualizaImagemPrincipal(Long idImagem) {
@@ -64,5 +67,9 @@ public class Produto {
             .peek(imagem -> imagem.setIsPrincipal(true))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException("Imagem não identificada"));
+    }
+
+    public boolean temImagemPrincipal() {
+        return getImagemPrincipal().isPresent();
     }
 }
